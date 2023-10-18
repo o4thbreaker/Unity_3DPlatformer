@@ -89,9 +89,9 @@ public class MovementController : MonoBehaviour
     private void HandleRotation()
     {
         Vector3 positionToLookAt;
-        positionToLookAt.x = currentMovement.x;
+        positionToLookAt.x = currentCameraRealtiveMovement.x;
         positionToLookAt.y = 0f;
-        positionToLookAt.z = currentMovement.z;
+        positionToLookAt.z = currentCameraRealtiveMovement.z;
 
         Quaternion currentRotation = transform.rotation;
         if (isMovementPressed)
