@@ -9,35 +9,8 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
         : base(currentContext, playerStateFactory)
     {
         IsRootState = true;
-        InitializeSubState();
     }
 
-    public override void EnterState()
-    {
-        Debug.Log("Entered Grounded state");
-
-        HandleGravity();
-    }
-    public override void UpdateState()
-    {
-        CheckSwitchStates();
-    }
-    public override void ExitState()
-    {
-
-    }
-    public override void CheckSwitchStates()
-    {
-        // if player is grounded and jump is pressed => switch to jump state
-        if (Ctx.IsJumpPressed && !Ctx.RequireNewJumpPress) 
-        {
-            SwitchState(Factory.Jump());
-        }
-        else if (!Ctx.CharacterController.isGrounded)
-        {
-            SwitchState(Factory.Fall());
-        }
-    }
     public override void InitializeSubState()
     {
         if (!Ctx.IsMovementPressed)
@@ -50,6 +23,37 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
         }
     }
 
+    public override void EnterState()
+    {
+        Debug.Log("Entered Grounded state");
+
+        InitializeSubState();
+        HandleGravity();
+    }
+
+    public override void UpdateState()
+    {
+        CheckSwitchStates();
+    }
+
+    public override void CheckSwitchStates()
+    {
+        // if player is grounded and jump is pressed => switch to jump state
+        if (Ctx.IsJumpPressed && !Ctx.RequireNewJumpPress)
+        {
+            SwitchState(Factory.Jump());
+        }
+        else if (!Ctx.CharacterController.isGrounded)
+        {
+            SwitchState(Factory.Fall());
+        }
+    }
+
+    public override void ExitState()
+    {
+
+    }
+    
     public void HandleGravity()
     {
         Ctx.CurrentCameraRealtiveMovementY = Ctx.Gravity;

@@ -9,34 +9,8 @@ public class PlayerJumpState : PlayerBaseState, IRootState
         : base(currentContext, factory)
     {
         IsRootState = true;
-        InitializeSubState();
     }
-    public override void EnterState()
-    {
-        Debug.Log("Entered Jump state");
-        HandleJump();
-    }
-    public override void UpdateState()
-    {
-        HandleGravity();
-        CheckSwitchStates();
-    }
-    public override void ExitState()
-    {
-        Ctx.Animator.SetBool(Ctx.IS_JUMPING, false);
-        if (Ctx.IsJumpPressed)
-        {
-            Ctx.RequireNewJumpPress = true;
-        }
-        
-    }
-    public override void CheckSwitchStates()
-    {
-        if (Ctx.CharacterController.isGrounded)
-        {
-            SwitchState(Factory.Grounded());
-        }
-    }
+
     public override void InitializeSubState()
     {
         if (!Ctx.IsMovementPressed)
@@ -47,6 +21,37 @@ public class PlayerJumpState : PlayerBaseState, IRootState
         {
             SetSubState(Factory.Walk());
         }
+    }
+
+    public override void EnterState()
+    {
+        Debug.Log("Entered Jump state");
+        InitializeSubState();
+        HandleJump();
+    }
+
+    public override void UpdateState()
+    {
+        HandleGravity();
+        CheckSwitchStates();
+    }
+
+    public override void CheckSwitchStates()
+    {
+        if (Ctx.CharacterController.isGrounded)
+        {
+            SwitchState(Factory.Grounded());
+        }
+    }
+
+    public override void ExitState()
+    {
+        Ctx.Animator.SetBool(Ctx.IS_JUMPING, false);
+        if (Ctx.IsJumpPressed)
+        {
+            Ctx.RequireNewJumpPress = true;
+        }
+        
     }
 
     private void HandleJump()

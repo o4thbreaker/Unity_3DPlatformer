@@ -8,7 +8,6 @@ public class PlayerFallState : PlayerBaseState, IRootState
         : base(currentContext, playerStateFactory)
     {
         IsRootState = true;
-        InitializeSubState();
     }
 
     public override void InitializeSubState()
@@ -26,6 +25,7 @@ public class PlayerFallState : PlayerBaseState, IRootState
     public override void EnterState()
     {
         Debug.Log("Entered Fall state");
+        InitializeSubState();
     }
 
     public override void UpdateState()
@@ -33,6 +33,7 @@ public class PlayerFallState : PlayerBaseState, IRootState
         HandleGravity();
         CheckSwitchStates();
     }
+
     public override void CheckSwitchStates()
     {
         if (Ctx.CharacterController.isGrounded)
