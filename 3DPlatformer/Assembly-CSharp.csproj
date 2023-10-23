@@ -61,8 +61,17 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\AnimationsAndMovementController.cs" />
     <Compile Include="Assets\Jammo-Character\Scripts\MovementInput.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\PlayerJumpState.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\PlayerIdleState.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\PlayerStateFactory.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\PlayerFallState.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\IRootState.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\PlayerBaseState.cs" />
     <Compile Include="Assets\PlayerInputActions.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\PlayerStateMachine.cs" />
     <Compile Include="Assets\Jammo-Character\Scripts\CharacterSkinController.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\PlayerGroundedState.cs" />
+    <Compile Include="Assets\Scripts\StateMachine\PlayerWalkState.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -758,11 +767,11 @@
     <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Model">
       <HintPath>Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Model.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.VisualScripting.State.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Postprocessing.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Postprocessing.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualScripting.State.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>

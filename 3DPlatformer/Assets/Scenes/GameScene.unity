@@ -368,7 +368,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 658230325}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.09252101, y: -0.000000017694198, z: 0.0000000016441374, w: 0.99571073}
+  m_LocalRotation: {x: 0.09252101, y: 0.000000017659882, z: -0.0000000016409487, w: 0.99571073}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -447,7 +447,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 660350265}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.13870122, y: 3.1624622e-33, z: -2.8651542e-33, w: 0.99033433}
+  m_LocalRotation: {x: 0.13870122, y: -1e-45, z: -0, w: 0.99033433}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1237,7 +1237,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.024449784, y: -0.000000034399925, z: 8.413221e-10, w: 0.9997011}
+  m_LocalRotation: {x: 0.024449784, y: 0.000000034402472, z: -8.413847e-10, w: 0.9997011}
   m_LocalPosition: {x: 0.294, y: 2.975, z: -7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1532,7 +1532,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1308562348}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.024449782, y: -0.000000017196136, z: 4.2056747e-10, w: 0.9997011}
+  m_LocalRotation: {x: 0.024449782, y: 0.000000017201238, z: -4.2069226e-10, w: 0.9997011}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2025,6 +2025,7 @@ GameObject:
   - component: {fileID: 1606763541}
   - component: {fileID: 1606763542}
   - component: {fileID: 1606763543}
+  - component: {fileID: 1606763544}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2071,7 +2072,7 @@ CharacterController:
   m_Height: 1.6
   m_Radius: 0.55
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 0.1
   m_SkinWidth: 0.05
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.8, z: 0}
@@ -2082,7 +2083,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1606763538}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a537c80ba40944347b6c98a13ab649de, type: 3}
   m_Name: 
@@ -2091,7 +2092,7 @@ MonoBehaviour:
   rotationSpeed: 15
   groundedGravity: -0.05
   gravity: -9.8
-  maxJumpHeight: 4
+  maxJumpHeight: 2
   maxJumpTime: 0.75
 --- !u!95 &1606763543
 Animator:
@@ -2114,6 +2115,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1606763544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606763538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3d9b24e4e37fe04d94cad8cb3b7a147, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSpeed: 7
+  rotationSpeed: 15
+  gravity: -9.81
+  maxJumpHeight: 2
+  maxJumpTime: 0.75
 --- !u!1 &1688138173
 GameObject:
   m_ObjectHideFlags: 3

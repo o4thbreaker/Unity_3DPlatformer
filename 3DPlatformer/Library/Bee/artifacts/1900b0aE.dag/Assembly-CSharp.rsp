@@ -367,6 +367,15 @@
 "Assets/Jammo-Character/Scripts/MovementInput.cs"
 "Assets/PlayerInputActions.cs"
 "Assets/Scripts/AnimationsAndMovementController.cs"
+"Assets/Scripts/StateMachine/IRootState.cs"
+"Assets/Scripts/StateMachine/PlayerBaseState.cs"
+"Assets/Scripts/StateMachine/PlayerFallState.cs"
+"Assets/Scripts/StateMachine/PlayerGroundedState.cs"
+"Assets/Scripts/StateMachine/PlayerIdleState.cs"
+"Assets/Scripts/StateMachine/PlayerJumpState.cs"
+"Assets/Scripts/StateMachine/PlayerStateFactory.cs"
+"Assets/Scripts/StateMachine/PlayerStateMachine.cs"
+"Assets/Scripts/StateMachine/PlayerWalkState.cs"
 -langversion:9.0
 
 /deterministic
