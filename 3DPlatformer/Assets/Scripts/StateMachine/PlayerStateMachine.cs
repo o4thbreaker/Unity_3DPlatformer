@@ -25,7 +25,9 @@ public class PlayerStateMachine : MonoBehaviour
     private bool isMovementPressed;
 
     private bool isJumpPressed = false;
+    private bool isDoubleJumpPressed = false;
     private bool isJumping = false;
+    private bool isDoubleJumping;
     private bool requireNewJumpPress = false;
     private float initialJumpVelocity;
     [SerializeField] private float maxJumpHeight = 1f;
@@ -34,13 +36,19 @@ public class PlayerStateMachine : MonoBehaviour
     private PlayerBaseState currentState;
     private PlayerStateFactory states;
 
+
+    /*private Vector3 cameraY = Camera.main.transform.up;
+    public Vector3 CameraY { get { return cameraY; } set { cameraY = value; } }*/
+
     public PlayerBaseState CurrentState { get { return currentState; } set { currentState = value; } }
     public CharacterController CharacterController { get { return characterController; } }
     public Vector2 CurrentMovementInput { get { return currentMovementInput; } }
     public Vector3 CurrentCameraRealtiveMovement { get { return currentCameraRealtiveMovement; } }
     public Animator Animator { get { return animator; } }
     public bool IsJumpPressed { get { return isJumpPressed; } }
-    public bool IsJumping { set { isJumping = value; } }
+    public bool IsDoubleJumpPressed { get { return isDoubleJumpPressed; } }
+    public bool IsJumping { get { return isJumping; } set { isJumping = value; } }
+    public bool IsDoubleJumping { get { return isDoubleJumping; } set { isDoubleJumping = value; } }
     public string IS_JUMPING { get { return is_jumping; } }
     public string IS_WALKING { get { return is_walking; } }
     public bool RequireNewJumpPress { get { return requireNewJumpPress; } set { requireNewJumpPress = value; } }
@@ -51,7 +59,6 @@ public class PlayerStateMachine : MonoBehaviour
     public float AppliedMovementY { get { return appliedMovement.y; } set { appliedMovement.y = value; } }
     public float AppliedMovementZ { get { return appliedMovement.z; } set { appliedMovement.z = value; } }
     public float PlayerSpeed { get { return playerSpeed;} }
-    //public float GroundedGravity { get { return groundedGravity; } }
     public float Gravity { get { return gravity; } }
 
 
@@ -69,9 +76,8 @@ public class PlayerStateMachine : MonoBehaviour
         playerInputActions.Player.Move.started += OnMovementInput;
         playerInputActions.Player.Move.canceled += OnMovementInput;
         playerInputActions.Player.Move.performed += OnMovementInput;
-        playerInputActions.Player.Jump.started += OnJump;
-        playerInputActions.Player.Jump.canceled += OnJump;
-
+        playerInputActions.Player.Jump.performed += OnJump;
+        
         SetupJumpVariables();
     }
 
@@ -113,7 +119,11 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void OnJump(InputAction.CallbackContext context)
     {
-        isJumpPressed = context.ReadValueAsButton();
+        float delay = Time.time * 0.3f;
+
+        isJumpPressed = context.ReadValueAsButton(); // true once jump is pressed
+        isDoubleJumpPressed = isJumpPressed && Time.time > delay && !characterController.isGrounded; // true once jump is pressed mid air
+
         requireNewJumpPress = false;
     }
 
@@ -137,7 +147,6 @@ public class PlayerStateMachine : MonoBehaviour
         HandleRotation();
         characterController.Move(appliedMovement * Time.deltaTime);
         currentState.UpdateStates();
-        
     }
 
     private void OnEnable()
