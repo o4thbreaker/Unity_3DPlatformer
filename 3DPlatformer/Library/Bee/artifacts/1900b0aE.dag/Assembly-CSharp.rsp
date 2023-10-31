@@ -367,6 +367,8 @@
 "Assets/Jammo-Character/Scripts/MovementInput.cs"
 "Assets/PlayerInputActions.cs"
 "Assets/Scripts/AnimationsAndMovementController.cs"
+"Assets/Scripts/Collectible.cs"
+"Assets/Scripts/CollectibleCount.cs"
 "Assets/Scripts/StateMachine/IRootState.cs"
 "Assets/Scripts/StateMachine/PlayerBaseState.cs"
 "Assets/Scripts/StateMachine/PlayerFallState.cs"
