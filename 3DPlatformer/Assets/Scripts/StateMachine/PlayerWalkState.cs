@@ -10,33 +10,42 @@ public class PlayerWalkState : PlayerBaseState
 
     }
 
+    public override void InitializeSubState()
+    {
+        if (Ctx.IsDashPressed)
+        {
+            SetSubState(Factory.Dash());
+        }
+    }
+
     public override void EnterState()
     {
         Debug.Log("Entered Walk state");
+
+        InitializeSubState();
         Ctx.Animator.SetBool(Ctx.IS_WALKING, true);
     }
+
     public override void UpdateState()
     {
         Ctx.AppliedMovementX = Ctx.CurrentCameraRealtiveMovement.x;
         Ctx.AppliedMovementZ = Ctx.CurrentCameraRealtiveMovement.z;
         CheckSwitchStates();
     }
-    public override void ExitState()
-    {
 
-    }
     public override void CheckSwitchStates()
     {
         if (!Ctx.IsMovementPressed)
         {
             SwitchState(Factory.Idle());
         }
-        /*if (Ctx.IsJumpPressed && !Ctx.RequireNewJumpPress)
+        else if (Ctx.IsDashPressed)
         {
-            SwitchState(Factory.Jump());
-        }*/
+            SwitchState(Factory.Dash());
+        }
     }
-    public override void InitializeSubState()
+
+    public override void ExitState()
     {
 
     }

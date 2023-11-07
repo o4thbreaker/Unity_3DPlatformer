@@ -19,7 +19,6 @@ public abstract class PlayerBaseState
         ctx = currentContext;
         factory = playerStateFactory;
     } 
-
     public abstract void EnterState();
     public abstract void UpdateState();
     public abstract void ExitState();

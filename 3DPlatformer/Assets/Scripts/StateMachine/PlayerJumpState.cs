@@ -54,7 +54,8 @@ public class PlayerJumpState : PlayerBaseState, IRootState
         if (Ctx.IsJumpPressed)
         {
             Ctx.RequireNewJumpPress = true;
-        }   
+        }
+        Ctx.IsJumpPressed = false;
     }
 
     private void HandleJump()

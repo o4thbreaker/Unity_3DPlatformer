@@ -214,7 +214,7 @@ GameObject:
   - component: {fileID: 195430936}
   - component: {fileID: 195430935}
   m_Layer: 5
-  m_Name: Count
+  m_Name: CollectibleCountText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -524,7 +524,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 658230325}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.13666162, y: 0.000000008522473, z: -0.0000000011757259, w: 0.9906178}
+  m_LocalRotation: {x: 0.13666162, y: 0.000000008512808, z: -0.0000000011743924, w: 0.9906178}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -603,7 +603,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 660350265}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18255739, y: -0.00000001891404, z: 0.0000000035119139, w: 0.98319525}
+  m_LocalRotation: {x: 0.18255737, y: 0.000000029095826, z: -0.0000000054024443, w: 0.98319525}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1420,7 +1420,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.102572456, y: -0.000000008557813, z: 8.824504e-10, w: 0.9947255}
+  m_LocalRotation: {x: 0.102572456, y: -0.000000008562874, z: 8.8297214e-10, w: 0.9947255}
   m_LocalPosition: {x: 0.294, y: 5.975, z: -13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1725,7 +1725,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1308562348}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.102572456, y: -0.0000000042789066, z: 4.4122522e-10, w: 0.9947255}
+  m_LocalRotation: {x: 0.102572456, y: -0.000000004289018, z: 4.4226783e-10, w: 0.9947255}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1759,7 +1759,7 @@ Transform:
   m_GameObject: {fileID: 1329965246}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.294, y: -0.975, z: 3}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1876,8 +1876,8 @@ Transform:
   m_GameObject: {fileID: 1358917408}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 19.0191}
-  m_LocalScale: {x: 50, y: 1, z: 78.035255}
+  m_LocalPosition: {x: 214.7096, y: -0.5, z: 180.1206}
+  m_LocalScale: {x: 1030.4923, y: 1, z: 1022.92035}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -2097,7 +2097,7 @@ GameObject:
   - component: {fileID: 1474500419}
   - component: {fileID: 1474500418}
   m_Layer: 5
-  m_Name: CollectiblesCountCanvas
+  m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2542,6 +2542,9 @@ MonoBehaviour:
   gravity: -9.81
   maxJumpHeight: 6
   maxJumpTime: 1
+  dashingSpeed: 5
+  dashDuration: 0.25
+  dashCooldown: 0.25
 --- !u!1 &1688138173
 GameObject:
   m_ObjectHideFlags: 3
@@ -3041,9 +3044,9 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 963194228}
+  - {fileID: 894094228}
   - {fileID: 705507995}
   - {fileID: 1606763540}
-  - {fileID: 894094228}
   - {fileID: 1358917412}
   - {fileID: 1388698264}
   - {fileID: 392818469}

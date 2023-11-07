@@ -10,6 +10,11 @@ public class PlayerIdleState : PlayerBaseState
 
     }
 
+    public override void InitializeSubState()
+    {
+       
+    }
+
     public override void EnterState()
     {
         Debug.Log("Entered Idle state");
@@ -31,13 +36,5 @@ public class PlayerIdleState : PlayerBaseState
         {
             SwitchState(Factory.Walk());
         }
-       /* if (Ctx.IsJumpPressed && !Ctx.RequireNewJumpPress)
-        {
-            SwitchState(Factory.Jump());
-        }*/
-    }
-    public override void InitializeSubState()
-    {
-
     }
 }

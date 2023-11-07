@@ -5,63 +5,84 @@ using UnityEngine.InputSystem;
 
 public class PlayerStateMachine : MonoBehaviour
 {
+    [Header("Speed")]
     [SerializeField] private float playerSpeed = 7f;
     [SerializeField] private float rotationSpeed = 1f;
 
-    //[SerializeField] private float groundedGravity = -.05f;
+    [Header("Gravity")]
     [SerializeField] private float gravity = -9.8f;
 
+    [Header("States")]
     private const string is_walking = "isWalking";
     private const string is_jumping = "isJumping";
 
+    [Header("Components")]
     private PlayerInputActions playerInputActions;
     private CharacterController characterController;
     private Animator animator;
 
+    [Header("Movement")]
     private Vector2 currentMovementInput; // wasd normalized ex W is (0,1)
     private Vector3 currentMovement; // player
     private Vector3 currentCameraRealtiveMovement;
     private Vector3 appliedMovement; // movement after calculating vervlet velocity to jump
     private bool isMovementPressed;
 
+    [Header("Jumping")]
+    [SerializeField] private float maxJumpHeight = 1f;
+    [SerializeField] private float maxJumpTime = 0.5f;
     private bool isJumpPressed = false;
     private bool isDoubleJumpPressed = false;
     private bool isJumping = false;
     private bool isDoubleJumping;
     private bool requireNewJumpPress = false;
     private float initialJumpVelocity;
-    [SerializeField] private float maxJumpHeight = 1f;
-    [SerializeField] private float maxJumpTime = 0.5f;
 
+    [Header("Dashing")]
+    [SerializeField] private float dashingSpeed = 20f;
+    [SerializeField] private float dashDuration = .25f;
+    [SerializeField] private float dashCooldown = .25f;
+    private bool isDashPressed = false;
+    private bool isDashing = false;
+    private float dashCooldownTimer = 0f;
+
+    [Header("StateFactory")]
     private PlayerBaseState currentState;
     private PlayerStateFactory states;
 
-
-    /*private Vector3 cameraY = Camera.main.transform.up;
-    public Vector3 CameraY { get { return cameraY; } set { cameraY = value; } }*/
-
     public PlayerBaseState CurrentState { get { return currentState; } set { currentState = value; } }
     public CharacterController CharacterController { get { return characterController; } }
+    public Animator Animator { get { return animator; } }
+
     public Vector2 CurrentMovementInput { get { return currentMovementInput; } }
     public Vector3 CurrentCameraRealtiveMovement { get { return currentCameraRealtiveMovement; } }
-    public Animator Animator { get { return animator; } }
-    public bool IsJumpPressed { get { return isJumpPressed; } }
+    public float CurrentCameraRealtiveMovementY { get { return currentCameraRealtiveMovement.y; } set { currentCameraRealtiveMovement.y = value; } }
+
+    public bool IsMovementPressed { get { return isMovementPressed; } }
+    public bool IsJumpPressed { get { return isJumpPressed; } set { isJumpPressed = value; } }
     public bool IsDoubleJumpPressed { get { return isDoubleJumpPressed; } }
+    public bool IsDashPressed { get { return isDashPressed; }  set { isDashPressed = value; } }
+
     public bool IsJumping { get { return isJumping; } set { isJumping = value; } }
     public bool IsDoubleJumping { get { return isDoubleJumping; } set { isDoubleJumping = value; } }
-    public string IS_JUMPING { get { return is_jumping; } }
-    public string IS_WALKING { get { return is_walking; } }
     public bool RequireNewJumpPress { get { return requireNewJumpPress; } set { requireNewJumpPress = value; } }
     public float InitialJumpVelocity { get { return initialJumpVelocity; } }
-    public bool IsMovementPressed {  get { return isMovementPressed; } }
-    public float CurrentCameraRealtiveMovementY { get { return currentCameraRealtiveMovement.y; } set { currentCameraRealtiveMovement.y = value; } }
+
+    public string IS_JUMPING { get { return is_jumping; } }
+    public string IS_WALKING { get { return is_walking; } }
+   
     public float AppliedMovementX { get { return appliedMovement.x; } set { appliedMovement.x = value; } }
     public float AppliedMovementY { get { return appliedMovement.y; } set { appliedMovement.y = value; } }
     public float AppliedMovementZ { get { return appliedMovement.z; } set { appliedMovement.z = value; } }
+
     public float PlayerSpeed { get { return playerSpeed;} }
     public float Gravity { get { return gravity; } }
 
-
+    public float DashingSpeed { get { return dashingSpeed; } set { dashingSpeed = value; } }
+    public bool IsDashing { get { return isDashing; } set { isDashing = value; } }
+    public float DashDuration { get { return dashDuration; } set { dashDuration = value; } }
+    public float DashCooldown { get { return dashCooldown; } set { dashCooldown = value; } }
+    public float DashCooldownTimer { get { return dashCooldownTimer; } set { dashCooldownTimer = value; } }
 
     private void Awake()
     {
@@ -77,6 +98,7 @@ public class PlayerStateMachine : MonoBehaviour
         playerInputActions.Player.Move.canceled += OnMovementInput;
         playerInputActions.Player.Move.performed += OnMovementInput;
         playerInputActions.Player.Jump.performed += OnJump;
+        playerInputActions.Player.Dash.performed += OnDash;
         
         SetupJumpVariables();
     }
@@ -127,6 +149,11 @@ public class PlayerStateMachine : MonoBehaviour
         requireNewJumpPress = false;
     }
 
+    private void OnDash(InputAction.CallbackContext context)
+    {
+        isDashPressed = context.ReadValueAsButton();
+    }
+
     private void HandleRotation()
     {
         Vector3 positionToLookAt;
@@ -147,6 +174,11 @@ public class PlayerStateMachine : MonoBehaviour
         HandleRotation();
         characterController.Move(appliedMovement * Time.deltaTime);
         currentState.UpdateStates();
+
+        if (dashCooldownTimer > 0f) // may not be the best solution but i couldnt find any better
+        {
+            dashCooldownTimer -= Time.deltaTime;
+        }
     }
 
     private void OnEnable()
