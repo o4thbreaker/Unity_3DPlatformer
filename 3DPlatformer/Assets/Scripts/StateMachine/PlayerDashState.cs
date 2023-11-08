@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class PlayerDashState : PlayerBaseState
 {
+    private float initialWalkingSpeed; // desiredMoveSpeed
+    private float initialDashingSpeed; // moveSpeed
+    private float speedDifference;
+    private float endingDashTimer;
+    private bool isEndingDash;
+
     public PlayerDashState(PlayerStateMachine currentContext, PlayerStateFactory playerStateFactory)
        : base(currentContext, playerStateFactory)
     {
@@ -19,21 +25,26 @@ public class PlayerDashState : PlayerBaseState
     {
         Debug.Log("Entered Dash state");
 
+        initialWalkingSpeed = Ctx.AppliedMovementZ;
+        initialDashingSpeed = Ctx.AppliedMovementZ * Ctx.DashingSpeed;
+        speedDifference = Mathf.Abs(initialWalkingSpeed - initialDashingSpeed);
+        endingDashTimer = 0f;
+        isEndingDash = false;
+
         Ctx.IsDashing = true;
     }
 
     public override void UpdateState()
     {
         Dash();
-
         CheckSwitchStates();
     }
 
     public override void CheckSwitchStates()
     {
-        if (Ctx.DashDuration <= 0f)
+        if (Ctx.DashDuration <= 0f && !isEndingDash)
         {
-            SwitchState(Factory.Idle());
+            SwitchState(Factory.Walk());
         }
     }
 
@@ -47,6 +58,10 @@ public class PlayerDashState : PlayerBaseState
 
     private void Dash()
     {
+        /*Debug.Log("walkingSpeed: " + walkingSpeed);
+        Debug.Log("currentSpeed: " + Ctx.AppliedMovementZ);
+        Debug.Log("initialDashingSpeed: " + initialDashingSpeed);*/
+
         if (Ctx.DashCooldownTimer > 0f)
         {
             return;
@@ -54,9 +69,25 @@ public class PlayerDashState : PlayerBaseState
         else
         {
             Ctx.DashDuration -= Time.deltaTime;
-
             Ctx.AppliedMovementX = Ctx.CurrentCameraRealtiveMovement.x * Ctx.DashingSpeed;
             Ctx.AppliedMovementZ = Ctx.CurrentCameraRealtiveMovement.z * Ctx.DashingSpeed;
+        }
+
+        if (Ctx.DashDuration <= 0f)
+        {
+            if (endingDashTimer >= speedDifference)
+                isEndingDash = false;
+            else
+                isEndingDash = true;
+
+            if (isEndingDash)
+            {
+                Ctx.AppliedMovementZ = Mathf.Lerp(initialDashingSpeed, initialWalkingSpeed, endingDashTimer / speedDifference);
+                /*Debug.Log("Lerped movement: " + Ctx.AppliedMovementZ);
+                Debug.Log("time: " + endingDashTimer);
+                Debug.Log("difference: " + speedDifference);*/
+                endingDashTimer += Time.deltaTime * Ctx.EndingDashDurationBoost;
+            }
         }
     }
 }

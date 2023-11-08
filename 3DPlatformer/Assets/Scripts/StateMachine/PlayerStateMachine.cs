@@ -42,6 +42,7 @@ public class PlayerStateMachine : MonoBehaviour
     [SerializeField] private float dashingSpeed = 20f;
     [SerializeField] private float dashDuration = .25f;
     [SerializeField] private float dashCooldown = .25f;
+    [SerializeField] private float endingDashDurationBoost = 50f;
     private bool isDashPressed = false;
     private bool isDashing = false;
     private float dashCooldownTimer = 0f;
@@ -83,6 +84,7 @@ public class PlayerStateMachine : MonoBehaviour
     public float DashDuration { get { return dashDuration; } set { dashDuration = value; } }
     public float DashCooldown { get { return dashCooldown; } set { dashCooldown = value; } }
     public float DashCooldownTimer { get { return dashCooldownTimer; } set { dashCooldownTimer = value; } }
+    public float EndingDashDurationBoost { get { return endingDashDurationBoost; } }
 
     private void Awake()
     {
@@ -179,6 +181,8 @@ public class PlayerStateMachine : MonoBehaviour
         {
             dashCooldownTimer -= Time.deltaTime;
         }
+
+        //Debug.Log("appliedMovementZ: " + appliedMovement.z);
     }
 
     private void OnEnable()
