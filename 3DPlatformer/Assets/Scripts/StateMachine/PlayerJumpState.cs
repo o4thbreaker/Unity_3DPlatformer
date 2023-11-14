@@ -27,6 +27,8 @@ public class PlayerJumpState : PlayerBaseState, IRootState
     {
         Debug.Log("Entered Jump state");
 
+        Ctx.StepOffset = 0f;
+
         InitializeSubState();
         HandleJump();
     }
@@ -56,6 +58,7 @@ public class PlayerJumpState : PlayerBaseState, IRootState
             Ctx.RequireNewJumpPress = true;
         }
         Ctx.IsJumpPressed = false;
+        Ctx.IsDoubleJumpPressed = false;
     }
 
     private void HandleJump()
@@ -65,8 +68,8 @@ public class PlayerJumpState : PlayerBaseState, IRootState
         Ctx.IsJumping = true;
         Ctx.IsDoubleJumping = false;
 
-        Ctx.CurrentCameraRealtiveMovementY = Ctx.InitialJumpVelocity;
-        Ctx.AppliedMovementY = Ctx.InitialJumpVelocity;
+        Ctx.CurrentCameraRealtiveMovementY = Ctx.JumpVelocity;
+        Ctx.AppliedMovementY = Ctx.JumpVelocity;
     }
 
     private void HandleDoubleJump()
@@ -75,16 +78,16 @@ public class PlayerJumpState : PlayerBaseState, IRootState
         {
             Ctx.IsDoubleJumping = true;
 
-            Ctx.CurrentCameraRealtiveMovementY = Ctx.InitialJumpVelocity;
-            Ctx.AppliedMovementY = Ctx.InitialJumpVelocity;
+            Ctx.CurrentCameraRealtiveMovementY = Ctx.JumpVelocity;
+            Ctx.AppliedMovementY = Ctx.JumpVelocity;
         }
     }
 
     public void HandleGravity()
     {
         bool isFalling = Ctx.CurrentCameraRealtiveMovementY <= 0.0f || !Ctx.IsJumpPressed;
-
         float fallMultiplier = 2.0f;
+
         if (isFalling)
         {
             float previousYVelocity = Ctx.CurrentCameraRealtiveMovementY;

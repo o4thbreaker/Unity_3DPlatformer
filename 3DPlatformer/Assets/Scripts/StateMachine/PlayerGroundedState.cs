@@ -27,6 +27,8 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
     {
         Debug.Log("Entered Grounded state");
 
+        Ctx.StepOffset = 0.1f;
+
         InitializeSubState();
         HandleGravity();
     }

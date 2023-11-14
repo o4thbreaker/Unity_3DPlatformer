@@ -29,8 +29,8 @@ public class PlayerDashState : PlayerBaseState
         initialDashingSpeed = Ctx.AppliedMovementZ * Ctx.DashingSpeed;
         speedDifference = Mathf.Abs(initialWalkingSpeed - initialDashingSpeed);
         endingDashTimer = 0f;
+        Ctx.IsDashPressed = false;
         isEndingDash = false;
-
         Ctx.IsDashing = true;
     }
 
@@ -50,7 +50,6 @@ public class PlayerDashState : PlayerBaseState
 
     public override void ExitState()
     {
-        Ctx.IsDashPressed = false;
         Ctx.IsDashing = false;
         Ctx.DashDuration = 0.25f;
         Ctx.DashCooldownTimer = Ctx.DashCooldown;
@@ -58,10 +57,6 @@ public class PlayerDashState : PlayerBaseState
 
     private void Dash()
     {
-        /*Debug.Log("walkingSpeed: " + walkingSpeed);
-        Debug.Log("currentSpeed: " + Ctx.AppliedMovementZ);
-        Debug.Log("initialDashingSpeed: " + initialDashingSpeed);*/
-
         if (Ctx.DashCooldownTimer > 0f)
         {
             return;
@@ -83,9 +78,6 @@ public class PlayerDashState : PlayerBaseState
             if (isEndingDash)
             {
                 Ctx.AppliedMovementZ = Mathf.Lerp(initialDashingSpeed, initialWalkingSpeed, endingDashTimer / speedDifference);
-                /*Debug.Log("Lerped movement: " + Ctx.AppliedMovementZ);
-                Debug.Log("time: " + endingDashTimer);
-                Debug.Log("difference: " + speedDifference);*/
                 endingDashTimer += Time.deltaTime * Ctx.EndingDashDurationBoost;
             }
         }

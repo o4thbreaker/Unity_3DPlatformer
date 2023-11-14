@@ -12,10 +12,7 @@ public class PlayerWalkState : PlayerBaseState
 
     public override void InitializeSubState()
     {
-        if (Ctx.IsDashPressed)
-        {
-            SetSubState(Factory.Dash());
-        }
+        
     }
 
     public override void EnterState()

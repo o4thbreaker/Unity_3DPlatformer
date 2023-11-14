@@ -12,7 +12,7 @@ public class PlayerIdleState : PlayerBaseState
 
     public override void InitializeSubState()
     {
-       
+        
     }
 
     public override void EnterState()
@@ -35,6 +35,10 @@ public class PlayerIdleState : PlayerBaseState
         if (Ctx.IsMovementPressed)
         {
             SwitchState(Factory.Walk());
+        }
+        else if (Ctx.IsDashPressed)
+        {
+            SwitchState(Factory.Dash());
         }
     }
 }

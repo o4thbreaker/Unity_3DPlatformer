@@ -36,7 +36,8 @@ public class PlayerStateMachine : MonoBehaviour
     private bool isJumping = false;
     private bool isDoubleJumping;
     private bool requireNewJumpPress = false;
-    private float initialJumpVelocity;
+    private float jumpVelocity;
+    private float stepOffset;
 
     [Header("Dashing")]
     [SerializeField] private float dashingSpeed = 20f;
@@ -61,13 +62,14 @@ public class PlayerStateMachine : MonoBehaviour
 
     public bool IsMovementPressed { get { return isMovementPressed; } }
     public bool IsJumpPressed { get { return isJumpPressed; } set { isJumpPressed = value; } }
-    public bool IsDoubleJumpPressed { get { return isDoubleJumpPressed; } }
+    public bool IsDoubleJumpPressed { get { return isDoubleJumpPressed; } set { isDoubleJumpPressed = value; } }
     public bool IsDashPressed { get { return isDashPressed; }  set { isDashPressed = value; } }
 
     public bool IsJumping { get { return isJumping; } set { isJumping = value; } }
     public bool IsDoubleJumping { get { return isDoubleJumping; } set { isDoubleJumping = value; } }
     public bool RequireNewJumpPress { get { return requireNewJumpPress; } set { requireNewJumpPress = value; } }
-    public float InitialJumpVelocity { get { return initialJumpVelocity; } }
+    public float JumpVelocity { get { return jumpVelocity; } }
+    public float StepOffset { get { return stepOffset; } set { stepOffset = value; } }
 
     public string IS_JUMPING { get { return is_jumping; } }
     public string IS_WALKING { get { return is_walking; } }
@@ -89,7 +91,7 @@ public class PlayerStateMachine : MonoBehaviour
     private void Awake()
     {
         playerInputActions = new PlayerInputActions();
-        characterController = GetComponent<CharacterController>(); // getcomponent finds for a attached component (in a menu )
+        characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
 
         states = new PlayerStateFactory(this);
@@ -110,11 +112,13 @@ public class PlayerStateMachine : MonoBehaviour
         float timeToApex = maxJumpTime / 2; // apex is a highest point of parabola aka highest jump point 
 
         gravity = (-2 * maxJumpHeight) / (timeToApex * timeToApex); // ????????
-        initialJumpVelocity = (2 * maxJumpHeight) / timeToApex; // = 10.(6)
+        jumpVelocity = (2 * maxJumpHeight) / timeToApex; // = 10.(6)
     }
 
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Locked;
+
         characterController.Move(appliedMovement * Time.deltaTime);
     }
 
@@ -125,6 +129,11 @@ public class PlayerStateMachine : MonoBehaviour
         currentMovement.z = currentMovementInput.y * playerSpeed;
         isMovementPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0;
 
+        HandleCameraRelativeMovement();
+    }
+
+    private void HandleCameraRelativeMovement()
+    {
         float playerVerticalInput = currentMovement.z;
         float playerHorizontalInput = currentMovement.x;
 
@@ -140,13 +149,12 @@ public class PlayerStateMachine : MonoBehaviour
 
         currentCameraRealtiveMovement = forwardRelativeVerticalInput + rightRelativeHorizontalInput;
     }
-
     private void OnJump(InputAction.CallbackContext context)
     {
         float delay = Time.time * 0.3f;
 
-        isJumpPressed = context.ReadValueAsButton(); // true once jump is pressed
-        isDoubleJumpPressed = isJumpPressed && Time.time > delay && !characterController.isGrounded; // true once jump is pressed mid air
+        isJumpPressed = context.ReadValueAsButton();
+        isDoubleJumpPressed = isJumpPressed && Time.time > delay && !characterController.isGrounded;
 
         requireNewJumpPress = false;
     }
@@ -177,12 +185,12 @@ public class PlayerStateMachine : MonoBehaviour
         characterController.Move(appliedMovement * Time.deltaTime);
         currentState.UpdateStates();
 
+        characterController.stepOffset = stepOffset;
+
         if (dashCooldownTimer > 0f) // may not be the best solution but i couldnt find any better
         {
             dashCooldownTimer -= Time.deltaTime;
         }
-
-        //Debug.Log("appliedMovementZ: " + appliedMovement.z);
     }
 
     private void OnEnable()
