@@ -59,13 +59,17 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.11f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\MainMenuUI.cs" />
+    <Compile Include="Assets\Scripts\OptionsUI.cs" />
     <Compile Include="Assets\Scripts\AnimationsAndMovementController.cs" />
+    <Compile Include="Assets\Scripts\LoaderCallback.cs" />
     <Compile Include="Assets\Jammo-Character\Scripts\MovementInput.cs" />
     <Compile Include="Assets\Scripts\DebuggingTools\CurrentStateText.cs" />
     <Compile Include="Assets\Scripts\StateMachine\PlayerJumpState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\PlayerDashState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\PlayerIdleState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\PlayerStateFactory.cs" />
+    <Compile Include="Assets\Scripts\Loader.cs" />
     <Compile Include="Assets\Scripts\StateMachine\PlayerFallState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\IRootState.cs" />
     <Compile Include="Assets\Scripts\StateMachine\PlayerBaseState.cs" />
@@ -76,6 +80,8 @@
     <Compile Include="Assets\Scripts\StateMachine\PlayerWalkState.cs" />
     <Compile Include="Assets\Scripts\DebuggingTools\CollectibleCountText.cs" />
     <Compile Include="Assets\Scripts\Collectible.cs" />
+    <Compile Include="Assets\Scripts\GamePauseUI.cs" />
+    <Compile Include="Assets\Scripts\SanyaGameManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -737,6 +743,9 @@
     <Reference Include="Unity.PlasticSCM.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.ProBuilder">
+      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
     </Reference>
@@ -761,6 +770,9 @@
     <Reference Include="Unity.VisualScripting.Core.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Core.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.ProBuilder.AddOns.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.AddOns.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Rider.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
     </Reference>
@@ -781,6 +793,9 @@
     </Reference>
     <Reference Include="Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection">
       <HintPath>Library\ScriptAssemblies\Unity.TestTools.CodeCoverage.Editor.OpenCover.Mono.Reflection.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
@@ -808,6 +823,9 @@
     </Reference>
     <Reference Include="Unity.Recorder">
       <HintPath>Library\ScriptAssemblies\Unity.Recorder.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
+      <HintPath>Library\ScriptAssemblies\Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.State">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>

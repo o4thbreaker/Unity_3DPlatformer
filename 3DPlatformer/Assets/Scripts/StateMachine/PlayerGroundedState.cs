@@ -58,7 +58,7 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
     
     public void HandleGravity()
     {
-        Ctx.CurrentCameraRealtiveMovementY = Ctx.Gravity;
-        Ctx.AppliedMovementY = Ctx.Gravity;
+        Ctx.CurrentCameraRealtiveMovementY = Ctx.Gravity * Time.deltaTime;
+        Ctx.AppliedMovementY = Ctx.Gravity * Time.deltaTime;
     }
 }

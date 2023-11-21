@@ -12,6 +12,11 @@ public class Collectible : MonoBehaviour
         totalCollectibles++;
     }
 
+    private void OnDisable()
+    {
+        totalCollectibles--;
+    }
+
     private void Update()
     {
         transform.localRotation = Quaternion.Euler(90f, Time.time * 100f, 0);

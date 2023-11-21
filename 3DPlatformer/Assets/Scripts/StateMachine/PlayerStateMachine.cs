@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerStateMachine : MonoBehaviour
 {
+    public static PlayerStateMachine Instance { get; private set; }
+
     [Header("Speed")]
     [SerializeField] private float playerSpeed = 7f;
     [SerializeField] private float rotationSpeed = 1f;
@@ -23,9 +26,9 @@ public class PlayerStateMachine : MonoBehaviour
 
     [Header("Movement")]
     private Vector2 currentMovementInput; // wasd normalized ex W is (0,1)
-    private Vector3 currentMovement; // player
+    private Vector3 currentMovement;
     private Vector3 currentCameraRealtiveMovement;
-    private Vector3 appliedMovement; // movement after calculating vervlet velocity to jump
+    private Vector3 appliedMovement; 
     private bool isMovementPressed;
 
     [Header("Jumping")]
@@ -52,6 +55,8 @@ public class PlayerStateMachine : MonoBehaviour
     private PlayerBaseState currentState;
     private PlayerStateFactory states;
 
+
+    public event EventHandler OnPause;
     public PlayerBaseState CurrentState { get { return currentState; } set { currentState = value; } }
     public CharacterController CharacterController { get { return characterController; } }
     public Animator Animator { get { return animator; } }
@@ -90,6 +95,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void Awake()
     {
+        Instance = this;
         playerInputActions = new PlayerInputActions();
         characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
@@ -103,8 +109,21 @@ public class PlayerStateMachine : MonoBehaviour
         playerInputActions.Player.Move.performed += OnMovementInput;
         playerInputActions.Player.Jump.performed += OnJump;
         playerInputActions.Player.Dash.performed += OnDash;
+        playerInputActions.Player.Pause.performed += Pause_performed;
         
         SetupJumpVariables();
+    }
+
+    private void OnDestroy()
+    {
+        playerInputActions.Player.Move.started -= OnMovementInput;
+        playerInputActions.Player.Move.canceled -= OnMovementInput;
+        playerInputActions.Player.Move.performed -= OnMovementInput;
+        playerInputActions.Player.Jump.performed -= OnJump;
+        playerInputActions.Player.Dash.performed -= OnDash;
+        playerInputActions.Player.Pause.performed -= Pause_performed;
+
+        playerInputActions.Dispose();
     }
 
     private void SetupJumpVariables()
@@ -117,7 +136,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.lockState = CursorLockMode.Locked;
 
         characterController.Move(appliedMovement * Time.deltaTime);
     }
@@ -151,10 +170,8 @@ public class PlayerStateMachine : MonoBehaviour
     }
     private void OnJump(InputAction.CallbackContext context)
     {
-        float delay = Time.time * 0.3f;
-
         isJumpPressed = context.ReadValueAsButton();
-        isDoubleJumpPressed = isJumpPressed && Time.time > delay && !characterController.isGrounded;
+        isDoubleJumpPressed = isJumpPressed && !characterController.isGrounded;
 
         requireNewJumpPress = false;
     }
@@ -162,6 +179,11 @@ public class PlayerStateMachine : MonoBehaviour
     private void OnDash(InputAction.CallbackContext context)
     {
         isDashPressed = context.ReadValueAsButton();
+    }
+
+    private void Pause_performed(InputAction.CallbackContext obj)
+    {
+        OnPause?.Invoke(this, EventArgs.Empty);
     }
 
     private void HandleRotation()

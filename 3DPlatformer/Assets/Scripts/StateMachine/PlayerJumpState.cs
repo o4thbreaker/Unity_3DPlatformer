@@ -52,11 +52,12 @@ public class PlayerJumpState : PlayerBaseState, IRootState
     public override void ExitState()
     {
         Ctx.Animator.SetBool(Ctx.IS_JUMPING, false);
-        Ctx.IsJumping = false;
+     
         if (Ctx.IsJumpPressed)
-        {
             Ctx.RequireNewJumpPress = true;
-        }
+
+        Ctx.IsJumping = false;
+        Ctx.IsDoubleJumping = false;
         Ctx.IsJumpPressed = false;
         Ctx.IsDoubleJumpPressed = false;
     }
@@ -64,7 +65,7 @@ public class PlayerJumpState : PlayerBaseState, IRootState
     private void HandleJump()
     {
         Ctx.Animator.SetBool(Ctx.IS_JUMPING, true);
-
+        
         Ctx.IsJumping = true;
         Ctx.IsDoubleJumping = false;
 
@@ -85,20 +86,31 @@ public class PlayerJumpState : PlayerBaseState, IRootState
 
     public void HandleGravity()
     {
-        bool isFalling = Ctx.CurrentCameraRealtiveMovementY <= 0.0f || !Ctx.IsJumpPressed;
+       /* bool isFalling = Ctx.CurrentCameraRealtiveMovementY <= 0.0f || !Ctx.IsJumpPressed;
         float fallMultiplier = 2.0f;
 
         if (isFalling)
         {
+            //Debug.Log("falling Y: " + Ctx.CurrentCameraRealtiveMovementY);
             float previousYVelocity = Ctx.CurrentCameraRealtiveMovementY;
+           
             Ctx.CurrentCameraRealtiveMovementY = Ctx.CurrentCameraRealtiveMovementY + (Ctx.Gravity * fallMultiplier * Time.deltaTime);
+            
             Ctx.AppliedMovementY = Mathf.Max((previousYVelocity + Ctx.CurrentCameraRealtiveMovementY) * .5f, -20f);
+           
         }
         else
         {
+            //Debug.Log("Y: " + Ctx.CurrentCameraRealtiveMovementY);
             float previousYVelocity = Ctx.CurrentCameraRealtiveMovementY;
+            
             Ctx.CurrentCameraRealtiveMovementY = Ctx.CurrentCameraRealtiveMovementY + (Ctx.Gravity * Time.deltaTime);
+           
             Ctx.AppliedMovementY = (previousYVelocity + Ctx.CurrentCameraRealtiveMovementY) * .5f;
-        }
+          
+        }*/
+
+        Ctx.CurrentCameraRealtiveMovementY += Ctx.Gravity * Time.deltaTime;
+        Ctx.AppliedMovementY += Ctx.Gravity * Time.deltaTime;
     }
 }

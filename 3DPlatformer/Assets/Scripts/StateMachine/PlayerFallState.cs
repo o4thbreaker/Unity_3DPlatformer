@@ -49,8 +49,11 @@ public class PlayerFallState : PlayerBaseState, IRootState
 
     public void HandleGravity()
     {
-        float previousYVelocity = Ctx.CurrentCameraRealtiveMovementY;
+        /*float previousYVelocity = Ctx.CurrentCameraRealtiveMovementY;
         Ctx.CurrentCameraRealtiveMovementY = Ctx.CurrentCameraRealtiveMovementY + Ctx.Gravity * Time.deltaTime;
-        Ctx.AppliedMovementY = Mathf.Max((previousYVelocity + Ctx.CurrentCameraRealtiveMovementY) * .5f, -20f);
+        Ctx.AppliedMovementY = Mathf.Max((previousYVelocity + Ctx.CurrentCameraRealtiveMovementY) * .5f, -20f);*/
+
+        Ctx.CurrentCameraRealtiveMovementY += Ctx.Gravity * Time.deltaTime;
+        Ctx.AppliedMovementY += Ctx.Gravity * Time.deltaTime;
     }
 }

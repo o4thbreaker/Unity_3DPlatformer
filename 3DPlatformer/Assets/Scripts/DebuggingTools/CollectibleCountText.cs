@@ -18,8 +18,14 @@ public class CollectibleCountText : MonoBehaviour
         UpdateCount();
     }
 
-    private void OnEnable() => Collectible.OnCollected += OnCollectibleCollected;
-    private void OnDisable() => Collectible.OnCollected -= OnCollectibleCollected;
+    private void OnEnable() 
+    { 
+        Collectible.OnCollected += OnCollectibleCollected; 
+    }
+    private void OnDisable() 
+    { 
+        Collectible.OnCollected -= OnCollectibleCollected; 
+    }
 
     private void OnCollectibleCollected()
     {

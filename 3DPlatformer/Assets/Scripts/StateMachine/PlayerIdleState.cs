@@ -22,14 +22,17 @@ public class PlayerIdleState : PlayerBaseState
         Ctx.AppliedMovementX = 0;
         Ctx.AppliedMovementZ = 0;
     }
+
     public override void UpdateState()
     {
         CheckSwitchStates();
     }
+
     public override void ExitState()
     {
 
     }
+
     public override void CheckSwitchStates()
     {
         if (Ctx.IsMovementPressed)
