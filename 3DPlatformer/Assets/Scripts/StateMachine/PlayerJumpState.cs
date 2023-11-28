@@ -51,6 +51,8 @@ public class PlayerJumpState : PlayerBaseState, IRootState
 
     public override void ExitState()
     {
+        Debug.Log("Exiting Jump state");
+
         Ctx.Animator.SetBool(Ctx.IS_JUMPING, false);
      
         if (Ctx.IsJumpPressed)
@@ -74,8 +76,8 @@ public class PlayerJumpState : PlayerBaseState, IRootState
     }
 
     private void HandleDoubleJump()
-    { 
-        if (Ctx.IsDoubleJumpPressed && !Ctx.IsDoubleJumping)
+    {
+        if (Ctx.DoubleJumpJar.IsAbilityAllowed && Ctx.IsDoubleJumpPressed && !Ctx.IsDoubleJumping)
         {
             Ctx.IsDoubleJumping = true;
 
@@ -110,7 +112,14 @@ public class PlayerJumpState : PlayerBaseState, IRootState
           
         }*/
 
-        Ctx.CurrentCameraRealtiveMovementY += Ctx.Gravity * Time.deltaTime;
-        Ctx.AppliedMovementY += Ctx.Gravity * Time.deltaTime;
+        if (Ctx.IsDashing && Ctx.IsMovementPressed)
+        {
+            
+        }
+        else
+        {
+            Ctx.CurrentCameraRealtiveMovementY += Ctx.Gravity * Time.deltaTime;
+            Ctx.AppliedMovementY += Ctx.Gravity * Time.deltaTime;
+        }
     }
 }

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
 public class PlayerGroundedState : PlayerBaseState, IRootState
 {
@@ -41,11 +40,11 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
     public override void CheckSwitchStates()
     {
         // if player is grounded and jump is pressed => switch to jump state
-        if (Ctx.IsJumpPressed && !Ctx.RequireNewJumpPress)
+        if (Ctx.IsJumpPressed && !Ctx.RequireNewJumpPress && !Ctx.IsDashing)
         {
             SwitchState(Factory.Jump());
         }
-        else if (!Ctx.CharacterController.isGrounded)
+        else if (!Ctx.CharacterController.isGrounded && !Ctx.IsDashing)
         {
             SwitchState(Factory.Fall());
         }
@@ -53,7 +52,7 @@ public class PlayerGroundedState : PlayerBaseState, IRootState
 
     public override void ExitState()
     {
-
+        Debug.Log("Exiting Grounded state");
     }
     
     public void HandleGravity()

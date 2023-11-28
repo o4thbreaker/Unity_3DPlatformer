@@ -24,6 +24,7 @@ public class PlayerDashState : PlayerBaseState
     public override void EnterState()
     {
         Debug.Log("Entered Dash state");
+        Ctx.Animator.SetBool(Ctx.IS_DASHING, true);
 
         initialWalkingSpeed = Ctx.AppliedMovementZ;
         initialDashingSpeed = Ctx.AppliedMovementZ * Ctx.DashingSpeed;
@@ -42,15 +43,22 @@ public class PlayerDashState : PlayerBaseState
 
     public override void CheckSwitchStates()
     {
-        if (Ctx.DashDuration <= 0f && !isEndingDash)
+        if (Ctx.DashDuration <= 0f && !isEndingDash && Ctx.IsMovementPressed)
         {
             SwitchState(Factory.Walk());
+        }
+        else if (Ctx.DashDuration <= 0f && !isEndingDash && !Ctx.IsMovementPressed)
+        {
+            SwitchState(Factory.Idle());
         }
     }
 
     public override void ExitState()
     {
+        Debug.Log("Exiting Dash state");
+        Ctx.Animator.SetBool(Ctx.IS_DASHING, false);
         Ctx.IsDashing = false;
+
         Ctx.DashDuration = 0.25f;
         Ctx.DashCooldownTimer = Ctx.DashCooldown;
     }
@@ -71,7 +79,9 @@ public class PlayerDashState : PlayerBaseState
         if (Ctx.DashDuration <= 0f)
         {
             if (endingDashTimer >= speedDifference)
+            {
                 isEndingDash = false;
+            }
             else
                 isEndingDash = true;
 

@@ -18,6 +18,7 @@ public class PlayerStateMachine : MonoBehaviour
     [Header("States")]
     private const string is_walking = "isWalking";
     private const string is_jumping = "isJumping";
+    private const string is_dashing = "isDashing";
 
     [Header("Components")]
     private PlayerInputActions playerInputActions;
@@ -55,11 +56,18 @@ public class PlayerStateMachine : MonoBehaviour
     private PlayerBaseState currentState;
     private PlayerStateFactory states;
 
+    [Header("AbilitySOs")]
+    [SerializeField] private JarType doubleJumpJar;
+    [SerializeField] private JarType dashJar;
+
 
     public event EventHandler OnPause;
     public PlayerBaseState CurrentState { get { return currentState; } set { currentState = value; } }
     public CharacterController CharacterController { get { return characterController; } }
     public Animator Animator { get { return animator; } }
+
+    public JarType DoubleJumpJar { get { return doubleJumpJar; } }
+    public JarType DashJar { get { return dashJar; } }
 
     public Vector2 CurrentMovementInput { get { return currentMovementInput; } }
     public Vector3 CurrentCameraRealtiveMovement { get { return currentCameraRealtiveMovement; } }
@@ -78,6 +86,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     public string IS_JUMPING { get { return is_jumping; } }
     public string IS_WALKING { get { return is_walking; } }
+    public string IS_DASHING { get { return is_dashing; } }
    
     public float AppliedMovementX { get { return appliedMovement.x; } set { appliedMovement.x = value; } }
     public float AppliedMovementY { get { return appliedMovement.y; } set { appliedMovement.y = value; } }
